@@ -29,16 +29,15 @@ const Register = () => {
       }`,
       formData
     );
-    console.log(imageUrl);
+    console.log("Image url", imageUrl);
+    console.log("Image url link", imageUrl?.data?.data?.display_url);
 
     try {
       const result = await createUser(email, password);
-      await updateUserProfile(name, imageUrl?.data?.display_url);
+      await updateUserProfile(name, imageUrl?.data?.data?.display_url);
       console.log(result);
-
       const saveToDb = await savedUser(result?.user);
       console.log(saveToDb);
-
       //   await getToken(result?.user?.email);
       toast.success("Successfully Signed in");
       navigate("/");

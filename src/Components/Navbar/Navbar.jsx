@@ -1,7 +1,9 @@
 import { FaUserCircle } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import Container from "../Shared/Container/Container";
+import useAuth from "../../Hook/useAuth";
 const Navbar = () => {
+  const { user, logOut } = useAuth();
   const links = (
     <>
       <li>
@@ -15,31 +17,61 @@ const Navbar = () => {
           Dashboard
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/login"
-          type="button"
-          data-te-ripple-init
-          data-te-ripple-color="light"
-          className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-[#7850ff] transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-[#7850ff] focus:text-[#7850ff] focus:outline-none focus:ring-0 active:text-[#7850ff] motion-reduce:transition-none"
-        >
-          Login
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/signup"
-          type="button"
-          data-te-ripple-init
-          data-te-ripple-color="light"
-          className="mr-3 inline-block rounded bg-[#7850ff] px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:text-[#7a4dff] hover:border hover:border-[#7a4dff]"
-        >
-          Sign up for free
-        </NavLink>
-      </li>
+      {!user && (
+        <li>
+          <NavLink
+            to="/login"
+            type="button"
+            data-te-ripple-init
+            data-te-ripple-color="light"
+            className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-[#7850ff] transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-[#7850ff] focus:text-[#7850ff] focus:outline-none focus:ring-0 active:text-[#7850ff] motion-reduce:transition-none"
+          >
+            Login
+          </NavLink>
+        </li>
+      )}
+      {!user && (
+        <li>
+          <NavLink
+            to="/signup"
+            type="button"
+            data-te-ripple-init
+            data-te-ripple-color="light"
+            className="mr-3 inline-block rounded bg-[#7850ff] px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:text-[#7a4dff] hover:border hover:border-[#7a4dff]"
+          >
+            Sign up for free
+          </NavLink>
+        </li>
+      )}
+      {user && (
+        <li>
+          <div
+            onClick={logOut}
+            type="button"
+            data-te-ripple-init
+            data-te-ripple-color="light"
+            className="mr-3 inline-block rounded bg-[#7850ff] px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:text-[#7a4dff] hover:border hover:border-[#7a4dff]"
+          >
+            Log Out
+          </div>
+        </li>
+      )}
       <li>
         <Link className=" rounded text-2xl">
-          <FaUserCircle />
+          {user ? (
+            <>
+              <img
+                className="rounded-full"
+                referrerPolicy="no-referrer"
+                src={user?.photoURL}
+                alt="profile"
+                height="30"
+                width="30"
+              />
+            </>
+          ) : (
+            <FaUserCircle />
+          )}
         </Link>
       </li>
     </>
