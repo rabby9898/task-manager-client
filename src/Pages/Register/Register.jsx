@@ -1,7 +1,63 @@
 import { FcGoogle } from "react-icons/fc";
 import signupImg from "../../assets/signupbanner.svg";
 import Container from "../../Components/Shared/Container/Container";
+import axios from "axios";
+import useAuth from "../../Hook/useAuth";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { savedUser } from "../../Api/UserApi";
+
 const Register = () => {
+  const { updateUserProfile, createUser, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const image = form.image.files[0];
+
+    //   image upload
+    const formData = new FormData();
+    formData.append("image", image);
+    const imageUrl = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_IMAGEBB_SECRET_KEY
+      }`,
+      formData
+    );
+    console.log(imageUrl);
+
+    try {
+      const result = await createUser(email, password);
+      await updateUserProfile(name, imageUrl?.data?.display_url);
+      console.log(result);
+
+      const saveToDb = await savedUser(result?.user);
+      console.log(saveToDb);
+
+      //   await getToken(result?.user?.email);
+      toast.success("Successfully Signed in");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error(`Sign up failed: ${err.message}`);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const saveGoogleUserDb = await savedUser(result?.user);
+      console.log(saveGoogleUserDb);
+      //   await getToken(result?.user?.email);
+      toast.success("Successfully Signed in");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
       <Container>
@@ -10,53 +66,56 @@ const Register = () => {
             <div className="gap-2 flex h-full flex-wrap items-center justify-center lg:justify-between">
               <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
                 <div className=" mb-20">
-                  <h1 className="text-4xl text-[]">Login With Your Account</h1>
+                  <h1 className="text-4xl text-[]">Register Our Website</h1>
                 </div>
-                <form>
+                <form onSubmit={handleRegister}>
                   <div className="relative mb-6" data-te-input-wrapper-init>
-                    <input
-                      type="text"
-                      className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                      id="exampleFormControlInput3"
-                      placeholder="Email address"
-                    />
-                    <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                    <label className="text-lg font-semibold">
                       Your Full Name
                     </label>
+                    <input
+                      type="text"
+                      className="peer block min-h-[auto] w-full rounded  bg-purple-50 px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                      id="exampleFormControlInput3"
+                      placeholder="Email address"
+                      name="name"
+                    />
                   </div>
 
                   <div className="relative mb-6" data-te-input-wrapper-init>
-                    <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                    <label className="text-lg font-semibold">
                       Upload Your Photo
                     </label>
                     <input
                       type="file"
                       className="file-input file-input-bordered file-input-[#7850ff] w-[17rem] mt-[3rem]"
+                      name="image"
+                      //   accept="image/*"
                     />
                   </div>
 
                   <div className="relative mb-6" data-te-input-wrapper-init>
-                    <input
-                      type="text"
-                      className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                      id="exampleFormControlInput3"
-                      placeholder="Email address"
-                    />
-                    <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                    <label className="text-lg font-semibold">
                       Email address
                     </label>
+                    <input
+                      type="text"
+                      className="peer block min-h-[auto] w-full rounded bg-purple-50 px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                      id="exampleFormControlInput3"
+                      placeholder="Email address"
+                      name="email"
+                    />
                   </div>
 
                   <div className="relative mb-6" data-te-input-wrapper-init>
+                    <label className="text-lg font-semibold"> Password</label>
                     <input
                       type="password"
-                      className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                      className="peer block min-h-[auto] w-full rounded bg-purple-50 px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       id="exampleFormControlInput33"
                       placeholder="Password"
+                      name="password"
                     />
-                    <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
-                      Password
-                    </label>
                   </div>
 
                   <button
@@ -75,6 +134,7 @@ const Register = () => {
                   </div>
 
                   <button
+                    onClick={handleGoogleSignIn}
                     className="btn h-[0] uppercase text-sm mb-3 flex w-full gap-3 py-3 items-center justify-center rounded bg-transparent border-[.5px] border-gray-300"
                     data-te-ripple-init
                     data-te-ripple-color="light"
@@ -83,6 +143,16 @@ const Register = () => {
                     Continue with Google
                   </button>
                 </form>
+                <p className="px-6 text-sm text-center text-gray-400">
+                  Already have an account?{" "}
+                  <Link
+                    to="/login"
+                    className="hover:underline hover:text-[#7850ff] text-gray-600"
+                  >
+                    Login
+                  </Link>
+                  .
+                </p>
               </div>
 
               <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">

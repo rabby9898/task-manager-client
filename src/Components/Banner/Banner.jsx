@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import Container from "../Shared/Container/Container";
-
+import { TypeAnimation } from "react-type-animation";
 const Banner = () => {
   return (
     <Container>
@@ -7,7 +8,21 @@ const Banner = () => {
         <div className="w-full flex-1">
           <div className="text-5xl uppercase font-semibold">
             <h1 className="text-[#7850ff]">Effective</h1>
-            <h1 className="my-4">Time management</h1>
+            <h1 className="my-4">
+              <TypeAnimation
+                sequence={[
+                  // Same substring at the start will only be typed out once, initially
+                  1000,
+                  "Time Management",
+                  1000,
+                  // wait 1s before replacing "Mice" with "Hamsters"
+                ]}
+                wrapper="span"
+                speed={200}
+                // style={{ fontSize: "2em", display: "inline-block" }}
+                repeat={Infinity}
+              />
+            </h1>
           </div>
           <div>
             <p className="text-base my-8 text-gray-500 italic">
@@ -16,9 +31,11 @@ const Banner = () => {
               seamlessly with our user-friendly platform.
             </p>
           </div>
-          <button className="btn h-auto bg-[#7850ff] text-white px-12 py-5 mt-8 uppercase hover:text-[#7850ff] rounded-lg">
-            Lets Explore
-          </button>
+          <Link to="/login">
+            <button className="btn h-auto bg-[#7850ff] text-white px-12 py-5 mt-8 uppercase hover:text-[#7850ff] rounded-lg">
+              Lets Explore
+            </button>
+          </Link>
         </div>
         <div className="w-ull flex-1">
           <img
