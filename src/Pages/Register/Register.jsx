@@ -6,9 +6,11 @@ import useAuth from "../../Hook/useAuth";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { savedUser } from "../../Api/UserApi";
+import { ImSpinner3 } from "react-icons/im";
 
 const Register = () => {
-  const { updateUserProfile, createUser, signInWithGoogle } = useAuth();
+  const { updateUserProfile, createUser, signInWithGoogle, loading } =
+    useAuth();
   const navigate = useNavigate();
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -124,7 +126,11 @@ const Register = () => {
                     data-te-ripple-init
                     data-te-ripple-color="light"
                   >
-                    Register
+                    {loading ? (
+                      <ImSpinner3 className="animate-spin mx-auto" />
+                    ) : (
+                      "Register"
+                    )}
                   </button>
 
                   <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">

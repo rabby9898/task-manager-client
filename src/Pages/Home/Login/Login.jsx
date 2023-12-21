@@ -1,7 +1,49 @@
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "../../../Components/Shared/Container/Container";
 import loginImg from "../../../assets/4957136_Mobile login.svg";
 import { FcGoogle } from "react-icons/fc";
+import useAuth from "../../../Hook/useAuth";
+import toast from "react-hot-toast";
+import { savedUser } from "../../../Api/UserApi";
+import { ImSpinner3 } from "react-icons/im";
 const Login = () => {
+  const { signIn, signInWithGoogle, loading } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location);
+  const from = location?.state?.from?.pathname || "/";
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const result = await signIn(email, password);
+      console.log(result);
+
+      //   await getToken(result?.user?.email);
+      toast.success("Successfully Signed In");
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.log(err);
+      toast.err(`Sign up failed: ${err.message}`);
+    }
+  };
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const saveGoogleUserDb = await savedUser(result?.user);
+      console.log(saveGoogleUserDb);
+
+      //   await getToken(result?.user?.email);
+      toast.success("Successfully Signed in");
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
       <section className="h-screen">
@@ -15,29 +57,27 @@ const Login = () => {
               <div className=" mb-20">
                 <h1 className="text-4xl text-[]">Login With Your Account</h1>
               </div>
-              <form>
+              <form onSubmit={handleSignIn}>
                 <div className="relative mb-6" data-te-input-wrapper-init>
+                  <label className="text-lg font-semibold">Email address</label>
                   <input
                     type="text"
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] w-full rounded bg-purple-50 px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="exampleFormControlInput3"
                     placeholder="Email address"
+                    name="email"
                   />
-                  <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
-                    Email address
-                  </label>
                 </div>
 
                 <div className="relative mb-6" data-te-input-wrapper-init>
+                  <label className="text-lg font-semibold">Password</label>
                   <input
                     type="password"
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] w-full rounded bg-purple-50 px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="exampleFormControlInput33"
                     placeholder="Password"
+                    name="password"
                   />
-                  <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
-                    Password
-                  </label>
                 </div>
 
                 <button
@@ -46,7 +86,11 @@ const Login = () => {
                   data-te-ripple-init
                   data-te-ripple-color="light"
                 >
-                  Sign in
+                  {loading ? (
+                    <ImSpinner3 className="animate-spin mx-auto" />
+                  ) : (
+                    "Sign in"
+                  )}
                 </button>
 
                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -56,6 +100,7 @@ const Login = () => {
                 </div>
 
                 <button
+                  onClick={handleGoogleSignIn}
                   className="btn h-[0] uppercase text-sm mb-3 flex w-full gap-3 py-3 items-center justify-center rounded bg-transparent border-[.5px] border-gray-300"
                   data-te-ripple-init
                   data-te-ripple-color="light"
@@ -64,6 +109,16 @@ const Login = () => {
                   Continue with Google
                 </button>
               </form>
+              <p className="px-6 text-sm text-center text-gray-400">
+                Do not have an account?{" "}
+                <Link
+                  to="/signup"
+                  className="hover:underline hover:text-[#7850ff] text-gray-600"
+                >
+                  Register
+                </Link>
+                .
+              </p>
             </div>
           </div>
         </div>
