@@ -7,7 +7,7 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/dashboard"
-          className=" inline-block rounded px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 motion-reduce:transition-none"
+          className=" inline-block rounded px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-[#7850ff] transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-[#7850ff] focus:text-[#7850ff] focus:outline-none focus:ring-0 active:text-[#7850ff] motion-reduce:transition-none"
           aria-current="page"
           href="#"
           data-te-nav-link-ref
@@ -21,7 +21,7 @@ const Navbar = () => {
           type="button"
           data-te-ripple-init
           data-te-ripple-color="light"
-          className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 motion-reduce:transition-none"
+          className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-[#7850ff] transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-[#7850ff] focus:text-[#7850ff] focus:outline-none focus:ring-0 active:text-[#7850ff] motion-reduce:transition-none"
         >
           Login
         </NavLink>
@@ -32,7 +32,7 @@ const Navbar = () => {
           type="button"
           data-te-ripple-init
           data-te-ripple-color="light"
-          className="mr-3 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:text-[#7a4dff] hover:border hover:border-[#7a4dff]"
+          className="mr-3 inline-block rounded bg-[#7850ff] px-6 pb-2 pt-2.5 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:text-[#7a4dff] hover:border hover:border-[#7a4dff]"
         >
           Sign up for free
         </NavLink>
