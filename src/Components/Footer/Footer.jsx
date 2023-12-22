@@ -3,43 +3,46 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="footer footer-center p-10 bg-[#7850ff] text-base-content">
+    <div className="flex justify-center items-center bg-[#7850ff]">
+      <footer
+        style={{ backgroundColor: "#7850ff" }}
+        className="footer footer-center p-10 text-base-content"
+      >
         <div>
           <nav>
             <div className="grid grid-flow-col gap-6 text-2xl text-white">
-              <a>
-                <FaFacebook />
+              <a href="#">
+                <FaFacebook className="text-white" />
               </a>
-              <a>
+              <a href="#" className="text-white">
                 <FaInstagram />
               </a>
-              <a>
+              <a href="#" className="text-white">
                 <FaDribbble />
               </a>
-              <a>
+              <a href="#" className="text-white">
                 <FaTwitter />
               </a>
             </div>
           </nav>
-          <nav className="grid grid-flow-col gap-6 text-base text-white ">
-            <Link to="/" className="link link-hover">
+          <nav className="grid grid-flow-col gap-6 text-base text-white">
+            <Link to="/" className="link link-hover text-white">
               Home
             </Link>
-            <Link to="#" className="link link-hover">
+            <Link to="#" className="link link-hover text-white">
               About us
             </Link>
-            <Link to="# " className="link link-hover">
+            <Link to="# " className="link link-hover text-white">
               Contact
             </Link>
-            <Link to="/dashboard" className="link link-hover">
+            <Link to="/dashboard" className="link link-hover text-white">
               Dashboard
             </Link>
           </nav>
         </div>
 
         <aside>
-          <p className="text-base text-white border-t border-t-gray">
+          <p className="text-base text-white border-t border-t-white">
             Copyright © 2023 - All right reserved by Fajle Rabby
           </p>
         </aside>

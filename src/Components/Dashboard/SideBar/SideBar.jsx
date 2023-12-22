@@ -4,17 +4,23 @@ import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdTaskAlt } from "react-icons/md";
 import MenuItem from "../MenuItem";
 import useAuth from "../../../Hook/useAuth";
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
+  const navigate = useNavigate();
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
+  };
+
+  const logOutHome = () => {
+    logOut();
+    navigate("/");
   };
   return (
     <>
@@ -49,7 +55,7 @@ const Sidebar = () => {
       >
         <div>
           <div>
-            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-blue-100 mx-auto">
+            <div className="w-full hidden md:flex px-4 py-2 justify-center items-center bg-transparent mx-auto">
               <Link to="/">
                 <img
                   // className="hidden md:block"
@@ -67,7 +73,11 @@ const Sidebar = () => {
             {/* If a user is host */}
             <nav>
               <MenuItem icon={MdTaskAlt} label="All Tasks" address="tasks" />
-
+              <MenuItem
+                icon={FcSettings}
+                label="Profile"
+                address="/dashboard/profile"
+              />
               {/* Menu Items */}
             </nav>
           </div>
@@ -75,14 +85,8 @@ const Sidebar = () => {
 
         <div>
           <hr />
-
-          <MenuItem
-            icon={FcSettings}
-            label="Profile"
-            address="/dashboard/profile"
-          />
           <button
-            onClick={logOut}
+            onClick={logOutHome}
             className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-purple-300   hover:text-gray-700 transition-colors duration-300 transform"
           >
             <GrLogout className="w-5 h-5" />

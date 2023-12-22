@@ -31,8 +31,8 @@ const Banner = () => {
               seamlessly with our user-friendly platform.
             </p>
           </div>
-          <Link to="/login">
-            <button className="btn h-auto bg-[#7850ff] text-white px-12 py-5 mt-8 uppercase hover:text-[#7850ff] rounded-lg">
+          <Link to="/dashboard/tasks">
+            <button className="btn h-auto bg-[#7850ff] text-white px-12 py-3 mt-8 uppercase hover:text-[#7850ff] rounded-lg">
               Lets Explore
             </button>
           </Link>
