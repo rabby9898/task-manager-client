@@ -1,9 +1,7 @@
-import { getUSersData } from "../../../Api/UserApi";
 import useAuth from "../../../Hook/useAuth";
 
 const Profile = () => {
   const { user } = useAuth();
-  console.log("profile:", getUSersData(user));
 
   return (
     <div>

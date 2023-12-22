@@ -8,8 +8,14 @@ export const savedUser = async (user) => {
   const { data } = await axiosSecure.put(`/users/${user?.email}`, currentUser);
   return data;
 };
-export const getUSersData = async (user) => {
-  const { data } = await axiosSecure.get(`/users/${user?.email}`);
+export const getUSersData = async (email) => {
+  const { data } = await axiosSecure.get(`/users/${email}`);
   console.log("from data:", data);
+  return data;
+};
+
+export const getAllUsers = async () => {
+  const { data } = await axiosSecure.get(`/users`);
+
   return data;
 };
