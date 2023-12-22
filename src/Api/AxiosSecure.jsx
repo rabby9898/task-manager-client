@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000/",
-  withCredentials: true,
+  baseURL: "https://server-steel-alpha.vercel.app/",
 });
 export default axiosSecure;

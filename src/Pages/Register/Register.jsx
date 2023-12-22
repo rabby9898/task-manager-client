@@ -89,7 +89,7 @@ const Register = () => {
                     </label>
                     <input
                       type="file"
-                      className="file-input file-input-bordered file-input-[#7850ff] w-[17rem] mt-[3rem]"
+                      // className="file-input file-input-bordered file-input-[#7850ff] w-[17rem] mt-[3rem]"
                       name="image"
                       //   accept="image/*"
                     />

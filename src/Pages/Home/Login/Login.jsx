@@ -28,7 +28,7 @@ const Login = () => {
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
-      toast.err(`Sign up failed: ${err.message}`);
+      toast.error(`Sign up failed: ${err.message}`);
     }
   };
   const handleGoogleSignIn = async () => {

@@ -78,7 +78,7 @@ const BenefitsContent = () => {
         <>
           {audienceData.map((audience, index) => (
             <SwiperSlide key={index} className="h-[400px]">
-              <div className="w-[550px] p-6 bg-purple-100 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <div className="w-full md:w-[300px] lg:w-[550px] p-6 bg-purple-100 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div className="title" data-swiper-parallax="-300">
                   <h5 className="mb-8 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {" "}
